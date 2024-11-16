@@ -1,0 +1,184 @@
+# Scored PG-SGA 病人整體營養狀況評估表 #   <input type="date"><br>
+
+姓名: <input type="text" id="name"> 
+病歷號: <input type="text" id="number"><br />
+
+年齡: <input type="text" id="number">
+<select>
+    <option>請選擇性別</option>
+    <option>男</option>
+    <option>女</option>
+</select>
+<br />
+ 治療方式: <input type="checkbox" name="checkbox" value="1" />手術
+    <input type="checkbox" name="checkbox" value="2" />放療
+    <input type="checkbox" name="checkbox" value="3" />化療
+    <input type="checkbox" name="checkbox" value="3" />其他
+
+
+<div class="section">
+<h3>A1 體重變化</h3>
+
+目前體重: <input type="number" id="currentWeight"> 公斤<br>
+身高: <input type="number" id="height"> 公分<br>
+一個月前的體重: <input type="number" id="oneMonthAgoWeight"> 公斤<br>
+六個月前的體重: <input type="number" id="sixMonthsAgoWeight"> 公斤<br>
+
+<h4>兩個星期前,體重是呈現 (Acute):</h4>
+
+<label><input type="radio" name="acuteWeight" value="1"> 降低(1)</label>
+<label><input type="radio" name="acuteWeight" value="0"> 沒有改變(0)</label>
+<label><input type="radio" name="acuteWeight" value="0"> 增加(0)</label>
+
+<h4>體重變化 (Sub-acute):</h4>
+
+<label><input type="radio" name="subAcuteWeight" value="4"> ≥10%/1M(≥20%/6M) 得分4</label><br>
+<label><input type="radio" name="subAcuteWeight" value="3"> 5-9.9%/1M(10%-19.9%/6M) 得分3</label><br>
+<label><input type="radio" name="subAcuteWeight" value="2"> 3-4.9%/1M(6-9.9%/6M) 得分2</label><br>
+<label><input type="radio" name="subAcuteWeight" value="1"> 2-2.9%/1M(2-5.9%/6M) 得分1</label><br>
+<label><input type="radio" name="subAcuteWeight" value="0"> 0-1.9%/1M(0-1.9%/6M) 得分0</label><br>
+<span id="A1-score" class="score">得分: 0</span>
+</div>
+
+<div class="section">
+<h3>A2 攝食情況</h3>
+
+<h4>最近幾個月攝食量,與平常比較:</h4>
+
+<label><input type="radio" name="intakeComparison" value="0"> 沒改變(0)</label>
+<label><input type="radio" name="intakeComparison" value="0"> 多</label>
+<label><input type="radio" name="intakeComparison" value="1"> 少(1)</label>
+
+<h4>目前狀況:</h4>
+
+<label><input type="radio" name="currentIntake" value="1"> 正常飲食,但較少(1)</label><br>
+<label><input type="radio" name="currentIntake" value="2"> 少許固體食物(2)</label><br>
+<label><input type="radio" name="currentIntake" value="3"> 液體食物(3)</label><br>
+<label><input type="radio" name="currentIntake" value="3"> 營養補充品(3)</label><br>
+<label><input type="radio" name="currentIntake" value="4"> 非常少(4)</label><br>
+<label><input type="radio" name="currentIntake" value="0"> 僅靠管灌餵食或靜脈注射營養(0)</label><br>
+<span id="A2-score" class="score">得分: 0</span>
+</div>
+
+<div class="section">
+<h3>A3 腸胃症狀</h3>
+
+<h4>有無下列問題影響,近兩星期攝食情形:</h4>
+
+<label><input type="checkbox" name="symptoms" value="0"> 沒有問題(0)</label><br>
+<label><input type="checkbox" name="symptoms" value="3"> 沒食慾、不想吃(3)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 噁心(1)</label><br>
+<label><input type="checkbox" name="symptoms" value="3"> 嘔吐(3)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 便秘(1)</label><br>
+<label><input type="checkbox" name="symptoms" value="3"> 腹瀉(3)</label><br>
+<label><input type="checkbox" name="symptoms" value="2"> 口痛(2)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 口乾(1)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 嗅覺困擾(1)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 沒興趣(1)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 吞嚥困難(1)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 易飽脹(1)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 疼痛部位(1)</label><br>
+<label><input type="checkbox" name="symptoms" value="1"> 其他(1) 如:沮喪、經濟、或牙齒問題</label><br>
+<span id="A3-score" class="score">得分: 0</span>
+</div>
+
+<div class="section">
+<h3>A4 身體活動與功能狀況</h3>
+
+<label><input type="radio" name="activityStatus" value="0"> 正常(0)</label><br>
+<label><input type="radio" name="activityStatus" value="1"> 輕微受限但日常生活仍能自我料理(1)</label><br>
+<label><input type="radio" name="activityStatus" value="2"> 嚴重受限但臥床或靜坐不超過半天(2)</label><br>
+<label><input type="radio" name="activityStatus" value="3"> 長時間臥床或靜坐到幾乎完全臥床(3)</label><br>
+<span id="A4-score" class="score">得分: 0</span>
+</div>
+
+<div class="section">
+<h3>B 與疾病營養需求相關</h3>
+
+<label><input type="checkbox" name="diseaseRelated" value="1"> 癌症</label>
+<label><input type="checkbox" name="diseaseRelated" value="1"> 後天免疫不全症候群</label>
+<label><input type="checkbox" name="diseaseRelated" value="1"> 褥瘡</label>
+<label><input type="checkbox" name="diseaseRelated" value="1"> 創傷</label>
+<label><input type="checkbox" name="diseaseRelated" value="1"> 65 歲以上</label><br>
+<span id="B-score" class="score">得分: 0</span>
+</div>
+
+<div class="section">
+<h3>C 代謝壓力</h3>
+
+<h4>有無下列問題:</h4>
+
+<label><input type="radio" name="metabolicStress" value="0"> 沒有發燒、無類固醇 無壓力(0)</label><br>
+<label><input type="radio" name="metabolicStress" value="1"> <38℃、發燒時數<72h、類固醇<10mg prednisone/d 低度壓力(1)</label><br>
+<label><input type="radio" name="metabolicStress" value="2"> 38〜38.8℃、發燒時數72h、類固醇10〜30mg prednisone/d 中度壓力(2)</label><br>
+<label><input type="radio" name="metabolicStress" value="3"> >38.8℃、發燒時>72h、類固醇>30mg prednisone/d 高度壓力(3)</label><br>
+<span id="C-score" class="score">得分: 0</span>
+</div>
+
+<div class="section">
+<h3>D. 身體檢查</h3>
+
+<h4>有無缺乏:</h4>
+
+<label><input type="radio" name="physicalExam" value="0"> 沒缺乏0</label><br>
+<label><input type="radio" name="physicalExam" value="1"> 輕度缺乏+1</label><br>
+<label><input type="radio" name="physicalExam" value="2"> 中度缺乏+2</label><br>
+<label><input type="radio" name="physicalExam" value="3"> 重度缺乏+3</label><br>
+<span id="D-score" class="score">得分: 0</span>
+</div>
+
+<div class="section">
+<h3>總分與建議</h3>
+
+<span id="totalScore">總分: 0</span><br>
+<span id="advice"></span>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function updateScores() {
+        // A1 score calculation
+        const acuteWeight = parseInt(document.querySelector('input[name="acuteWeight"]:checked')?.value || 0);
+        const subAcuteWeight = parseInt(document.querySelector('input[name="subAcuteWeight"]:checked')?.value || 0);
+        const a1Score = acuteWeight + subAcuteWeight;
+        document.getElementById('A1-score').textContent = `得分: ${a1Score}`;
+
+        // A2 score calculation (highest score)
+        const intakeComparison = parseInt(document.querySelector('input[name="intakeComparison"]:checked')?.value || 0);
+        const currentIntake = parseInt(document.querySelector('input[name="currentIntake"]:checked')?.value || 0);
+        const a2Score = Math.max(intakeComparison, currentIntake);
+        document.getElementById('A2-score').textContent = `得分: ${a2Score}`;
+
+        // A3 score calculation
+        const symptoms = document.querySelectorAll('input[name="symptoms"]:checked');
+        const a3Score = Array.from(symptoms).reduce((sum, symptom) => sum + parseInt(symptom.value), 0);
+        document.getElementById('A3-score').textContent = `得分: ${a3Score}`;
+
+        // A4 score calculation (highest score)
+        const a4Score = parseInt(document.querySelector('input[name="activityStatus"]:checked')?.value || 0);
+        document.getElementById('A4-score').textContent = `得分: ${a4Score}`;
+
+        // B score calculation
+        const diseaseRelated = document.querySelectorAll('input[name="diseaseRelated"]:checked');
+        const bScore = Array.from(diseaseRelated).reduce((sum, disease) => sum + parseInt(disease.value), 0);
+        document.getElementById('B-score').textContent = `得分: ${bScore}`;
+
+        // C score calculation
+        const cScore = parseInt(document.querySelector('input[name="metabolicStress"]:checked')?.value || 0);
+        document.getElementById('C-score').textContent = `得分: ${cScore}`;
+
+        // D score calculation
+        const dScore = parseInt(document.querySelector('input[name="physicalExam"]:checked')?.value || 0);
+        document.getElementById('D-score').textContent = `得分: ${dScore}`;
+
+        // Calculate total score
+        const totalScore = a1Score + a2Score + a3Score + a4Score + bScore + cScore + dScore;
+        document.getElementById('totalScore').textContent = `總分: ${totalScore}`;
+    }
+
+    // Add event listeners to all inputs
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('change', updateScores);
+    });
+});
+</script>
