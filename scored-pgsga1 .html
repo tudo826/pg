@@ -107,7 +107,7 @@
             margin: 15px 0;
         }
         .record { border: 1px solid #ddd; margin: 15px 0; padding: 15px; border-radius: 8px; }
-        .record-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .record-header { display: flex; justify-content: between; align-items: center; margin-bottom: 10px; }
         @media (max-width: 768px) {
             .form-row { flex-direction: column; }
             .tabs { flex-direction: column; }
@@ -160,25 +160,28 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label><strong>治療方式:</strong></label>
-                        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
-                            <div class="checkbox-item" style="flex: none;">
-                                <input type="checkbox" name="treatment" value="surgery" id="surgery">
-                                <label for="surgery">手術</label>
-                            </div>
-                            <div class="checkbox-item" style="flex: none;">
-                                <input type="checkbox" name="treatment" value="radiation" id="radiation">
-                                <label for="radiation">放療</label>
-                            </div>
-                            <div class="checkbox-item" style="flex: none;">
-                                <input type="checkbox" name="treatment" value="chemotherapy" id="chemotherapy">
-                                <label for="chemotherapy">化療</label>
-                            </div>
-                            <div class="checkbox-item" style="flex: none;">
-                                <input type="checkbox" name="treatment" value="other" id="other_treatment">
-                                <label for="other_treatment">其他</label>
-                            </div>
+                </div>
+
+                <!-- 新增治療方式區塊 -->
+                <div class="section">
+                    <h3>治療方式</h3>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="treatment" value="開刀" id="surgery">
+                            <label for="surgery">開刀</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="treatment" value="化療" id="chemotherapy">
+                            <label for="chemotherapy">化療</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="treatment" value="放療" id="radiotherapy">
+                            <label for="radiotherapy">放療</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="treatment" value="其他" id="other_treatment">
+                            <label for="other_treatment">其他</label>
+                            <input type="text" id="other_treatment_text" placeholder="請說明" style="margin-left: 10px; width: 200px;">
                         </div>
                     </div>
                 </div>
@@ -331,26 +334,6 @@
                             <label for="dry_mouth">口乾 (1分)</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" name="symptoms" value="1" id="smell_problem">
-                            <label for="smell_problem">嗅覺困擾 (1分)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="symptoms" value="1" id="no_interest">
-                            <label for="no_interest">沒興趣 (1分)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="symptoms" value="1" id="swallow_difficulty">
-                            <label for="swallow_difficulty">吞嚥困難 (1分)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="symptoms" value="1" id="early_satiety">
-                            <label for="early_satiety">易飽脹 (1分)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="symptoms" value="1" id="pain">
-                            <label for="pain">疼痛 (1分)</label>
-                        </div>
-                        <div class="checkbox-item">
                             <input type="checkbox" name="symptoms" value="1" id="other_symptoms">
                             <label for="other_symptoms">其他 (1分)</label>
                         </div>
@@ -390,7 +373,7 @@
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" name="diseaseRelated" value="1" id="aids">
-                            <label for="aids">後天免疫不全症候群 (1分)</label>
+                            <label for="aids">免疫缺陷 (1分)</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" name="diseaseRelated" value="1" id="pressure_ulcer">
@@ -471,7 +454,7 @@
             <div class="section">
                 <h3>📊 問卷記錄</h3>
                 <div style="text-align: center; margin: 20px 0;">
-                    <button class="btn btn-primary" onclick="loadRecords()">🔄 重新載入</button>
+                    <button class="btn btn-primary" onclick="loadRecords(); showRecords();">🔄 重新載入</button>
                     <button class="btn btn-warning" onclick="clearRecords()">🗑️ 清除記錄</button>
                 </div>
                 <div id="recordsList"></div>
@@ -495,6 +478,7 @@
     <script>
         let records = [];
 
+        // 載入記錄
         function loadRecords() {
             try {
                 const stored = localStorage.getItem('pgsga_records');
@@ -504,10 +488,12 @@
             }
         }
 
+        // 儲存記錄
         function saveRecords() {
             localStorage.setItem('pgsga_records', JSON.stringify(records));
         }
 
+        // 切換標籤頁
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
@@ -516,62 +502,81 @@
             if (tabName === 'records') showRecords();
         }
 
+        // 更新分數
         function updateScores() {
+            // A1
             const acute = parseInt(document.querySelector('input[name="acuteWeight"]:checked')?.value || 0);
             const subAcute = parseInt(document.querySelector('input[name="subAcuteWeight"]:checked')?.value || 0);
             const a1 = acute + subAcute;
             document.getElementById('A1-score').textContent = `A1 得分: ${a1}`;
 
+            // A2
             const intake1 = parseInt(document.querySelector('input[name="intakeComparison"]:checked')?.value || 0);
             const intake2 = parseInt(document.querySelector('input[name="currentIntake"]:checked')?.value || 0);
             const a2 = Math.max(intake1, intake2);
             document.getElementById('A2-score').textContent = `A2 得分: ${a2}`;
 
+            // A3
             const symptoms = document.querySelectorAll('input[name="symptoms"]:checked');
             const a3 = Array.from(symptoms).reduce((sum, s) => sum + parseInt(s.value), 0);
             document.getElementById('A3-score').textContent = `A3 得分: ${a3}`;
 
+            // A4
             const a4 = parseInt(document.querySelector('input[name="activityStatus"]:checked')?.value || 0);
             document.getElementById('A4-score').textContent = `A4 得分: ${a4}`;
 
+            // B
             const diseases = document.querySelectorAll('input[name="diseaseRelated"]:checked');
             const b = Array.from(diseases).reduce((sum, d) => sum + parseInt(d.value), 0);
             document.getElementById('B-score').textContent = `B 得分: ${b}`;
 
+            // C
             const c = parseInt(document.querySelector('input[name="metabolicStress"]:checked')?.value || 0);
             document.getElementById('C-score').textContent = `C 得分: ${c}`;
 
+            // D
             const d = parseInt(document.querySelector('input[name="physicalExam"]:checked')?.value || 0);
             document.getElementById('D-score').textContent = `D 得分: ${d}`;
 
+            // 總分
             const total = a1 + a2 + a3 + a4 + b + c + d;
             document.getElementById('totalScore').textContent = `總分: ${total}`;
 
+            // 建議
             let advice = '';
-            if (total >= 9) advice = '🚨 嚴重營養不良風險 - 建議立即營養介入';
-            else if (total >= 4) advice = '⚠️ 中度營養不良風險 - 建議營養評估';
-            else advice = '✅ 營養狀況良好 - 持續監測';
+            if (total >= 9) advice = '🚨 嚴重營養不良風險';
+            else if (total >= 4) advice = '⚠️ 中度營養不良風險';
+            else advice = '✅ 營養狀況良好';
             document.getElementById('advice').textContent = advice;
 
             return { a1, a2, a3, a4, b, c, d, total, advice };
         }
 
+        // 收集表單資料
         function collectData() {
             const getSelected = (name) => {
                 const el = document.querySelector(`input[name="${name}"]:checked`);
-                return el ? { value: el.value, text: el.nextElementSibling.textContent } : null;
+                return el ? { value: el.value, text: el.nextElementSibling.textContent.trim() } : null;
             };
 
             const getMultiSelected = (name) => {
                 const els = document.querySelectorAll(`input[name="${name}"]:checked`);
                 return Array.from(els).map(el => ({
                     value: el.value,
-                    text: el.nextElementSibling.textContent
+                    text: el.nextElementSibling.textContent.trim()
                 }));
             };
 
+            // 處理治療方式
             const treatments = getMultiSelected('treatment');
-            const treatmentMap = { surgery: '手術', radiation: '放療', chemotherapy: '化療', other: '其他' };
+            let treatmentText = treatments.map(t => t.text).join('； ');
+            
+            // 如果有其他治療方式，加入文字
+            const otherTreatment = document.getElementById('other_treatment_text').value;
+            if (otherTreatment) {
+                if (treatmentText) treatmentText += '； ';
+                treatmentText += '其他：' + otherTreatment;
+            }
 
             return {
                 date: document.getElementById('date').value,
@@ -579,12 +584,11 @@
                 number: document.getElementById('number').value,
                 age: document.getElementById('age').value,
                 gender: document.getElementById('gender').value,
-                treatment: treatments.map(t => t.value),
-                treatmentText: treatments.map(t => treatmentMap[t.value] || t.value).join(', '),
                 currentWeight: document.getElementById('currentWeight').value,
                 height: document.getElementById('height').value,
                 oneMonthWeight: document.getElementById('oneMonthWeight').value,
                 sixMonthWeight: document.getElementById('sixMonthWeight').value,
+                treatment: treatmentText, // 新增治療方式
                 acuteWeight: getSelected('acuteWeight'),
                 subAcuteWeight: getSelected('subAcuteWeight'),
                 intakeComparison: getSelected('intakeComparison'),
@@ -599,6 +603,14 @@
             };
         }
 
+        // Helper: 把選項物件/陣列轉成可顯示文字
+        function selText(sel) {
+            if (!sel) return '';
+            if (Array.isArray(sel)) return sel.map(s => s.text).join('； ');
+            return sel.text || '';
+        }
+
+        // 重設表單
         function resetForm() {
             if (confirm('確定要重設嗎？')) {
                 document.getElementById('pgsga-form').reset();
@@ -607,6 +619,7 @@
             }
         }
 
+        // 顯示記錄（已擴充：顯示使用者當時選擇的項目）
         function showRecords() {
             const list = document.getElementById('recordsList');
             if (records.length === 0) {
@@ -621,21 +634,37 @@
                         <button class="btn btn-warning" onclick="deleteRecord(${index})">刪除</button>
                     </div>
                     <p><strong>基本:</strong> ${record.age}歲 ${record.gender === 'male' ? '男' : '女'} | 身高:${record.height}cm 體重:${record.currentWeight}kg</p>
-                    <p><strong>治療:</strong> ${record.treatmentText || '未填'}</p>
+                    <p><strong>治療方式:</strong> ${record.treatment || '無'}</p>
                     <p><strong>分數:</strong> A1:${record.scores.a1} A2:${record.scores.a2} A3:${record.scores.a3} A4:${record.scores.a4} B:${record.scores.b} C:${record.scores.c} D:${record.scores.d}</p>
                     <p><strong>總分:</strong> ${record.scores.total} - ${record.scores.advice}</p>
+                    <details>
+                        <summary style="cursor: pointer;">▶ 當時所選擇的項目 (點開查看)</summary>
+                        <ul>
+                            <li><strong>治療方式:</strong> ${record.treatment || '無'}</li>
+                            <li><strong>兩週體重變化:</strong> ${selText(record.acuteWeight)}</li>
+                            <li><strong>體重變化程度:</strong> ${selText(record.subAcuteWeight)}</li>
+                            <li><strong>最近攝食量與平常比較:</strong> ${selText(record.intakeComparison)}</li>
+                            <li><strong>目前攝食狀況:</strong> ${selText(record.currentIntake)}</li>
+                            <li><strong>腸胃症狀:</strong> ${selText(record.symptoms)}</li>
+                            <li><strong>身體活動狀況:</strong> ${selText(record.activityStatus)}</li>
+                            <li><strong>疾病相關:</strong> ${selText(record.diseaseRelated)}</li>
+                            <li><strong>代謝壓力:</strong> ${selText(record.metabolicStress)}</li>
+                            <li><strong>身體檢查:</strong> ${selText(record.physicalExam)}</li>
+                        </ul>
+                    </details>
                 </div>
             `).join('');
         }
 
-        function deleteRecord(index) {
-            if (confirm('確定刪除？')) {
-                records.splice(index, 1);
-                saveRecords();
-                showRecords();
-            }
+        // 刪除單筆記錄
+        function deleteRecord(i) {
+            if (!confirm('確定刪除這筆記錄？')) return;
+            records.splice(i, 1);
+            saveRecords();
+            showRecords();
         }
 
+        // 清除記錄
         function clearRecords() {
             if (confirm('確定清除所有記錄？')) {
                 records = [];
@@ -644,6 +673,7 @@
             }
         }
 
+        // 匯出JSON（JSON已包含原始選項物件）
         function exportJSON() {
             if (records.length === 0) {
                 alert('沒有資料可匯出');
@@ -660,25 +690,28 @@
             document.getElementById('exportResult').innerHTML = '✅ JSON已下載';
         }
 
+        // 匯出CSV（已擴充：包含使用者當時所選項目文字）
         function exportCSV() {
             if (records.length === 0) {
                 alert('沒有資料可匯出');
                 return;
             }
 
-            const headers = ['日期', '姓名', '病歷號', '年齡', '性別', '治療方式', '身高', '體重', 'A1分數', 'A2分數', 'A3分數', 'A4分數', 'B分數', 'C分數', 'D分數', '總分', '建議'];
-            
+            const headers = ['日期', '姓名', '病歷號', '年齡', '性別', '身高', '體重', '治療方式', 'A1分數', 'A2分數', 'A3分數', 'A4分數', 'B分數', 'C分數', 'D分數', '總分', '建議', '兩週體重變化', '體重變化程度', '最近攝食量比較', '目前攝食狀況', '腸胃症狀', '身體活動狀況', '疾病相關', '代謝壓力', '身體檢查'];
+
+            const escapeCSV = (v) => '"' + String(v === undefined || v === null ? '' : v).replace(/"/g, '""') + '"';
+
             const csvData = [
                 headers.join(','),
                 ...records.map(r => [
                     r.date,
-                    `"${r.name}"`,
+                    r.name,
                     r.number,
                     r.age,
                     r.gender === 'male' ? '男' : '女',
-                    `"${r.treatmentText || ''}"`,
                     r.height,
                     r.currentWeight,
+                    r.treatment || '',
                     r.scores.a1,
                     r.scores.a2,
                     r.scores.a3,
@@ -687,8 +720,17 @@
                     r.scores.c,
                     r.scores.d,
                     r.scores.total,
-                    `"${r.scores.advice}"`
-                ].join(','))
+                    r.scores.advice,
+                    selText(r.acuteWeight),
+                    selText(r.subAcuteWeight),
+                    selText(r.intakeComparison),
+                    selText(r.currentIntake),
+                    selText(r.symptoms),
+                    selText(r.activityStatus),
+                    selText(r.diseaseRelated),
+                    selText(r.metabolicStress),
+                    selText(r.physicalExam)
+                ].map(escapeCSV).join(','))
             ].join('\n');
 
             const blob = new Blob(['\ufeff' + csvData], { type: 'text/csv;charset=utf-8' });
@@ -701,6 +743,7 @@
             document.getElementById('exportResult').innerHTML = '✅ CSV已下載';
         }
 
+        // 匯出HTML（已擴充：列出使用者當時所選項目）
         function exportHTML() {
             if (records.length === 0) {
                 alert('沒有資料可匯出');
@@ -735,11 +778,25 @@
             <table>
                 <tr><th>項目</th><th>內容</th></tr>
                 <tr><td>基本資料</td><td>年齡: ${r.age}歲, 性別: ${r.gender === 'male' ? '男' : '女'}</td></tr>
-                <tr><td>治療方式</td><td>${r.treatmentText || '未填'}</td></tr>
                 <tr><td>身體測量</td><td>身高: ${r.height}cm, 體重: ${r.currentWeight}kg</td></tr>
+                <tr><td>治療方式</td><td>${r.treatment || '無'}</td></tr>
                 <tr><td>各項分數</td><td>A1:${r.scores.a1} A2:${r.scores.a2} A3:${r.scores.a3} A4:${r.scores.a4} B:${r.scores.b} C:${r.scores.c} D:${r.scores.d}</td></tr>
                 <tr><td><strong>總分</strong></td><td><strong>${r.scores.total}</strong></td></tr>
                 <tr><td>建議</td><td>${r.scores.advice}</td></tr>
+                <tr><td>當時選擇</td><td>
+                    <ul>
+                        <li>治療方式: ${r.treatment || '無'}</li>
+                        <li>兩週體重變化: ${selText(r.acuteWeight)}</li>
+                        <li>體重變化程度: ${selText(r.subAcuteWeight)}</li>
+                        <li>最近攝食量比較: ${selText(r.intakeComparison)}</li>
+                        <li>目前攝食狀況: ${selText(r.currentIntake)}</li>
+                        <li>腸胃症狀: ${selText(r.symptoms)}</li>
+                        <li>身體活動狀況: ${selText(r.activityStatus)}</li>
+                        <li>疾病相關: ${selText(r.diseaseRelated)}</li>
+                        <li>代謝壓力: ${selText(r.metabolicStress)}</li>
+                        <li>身體檢查: ${selText(r.physicalExam)}</li>
+                    </ul>
+                </td></tr>
             </table>
         </div>
     `).join('')}
@@ -756,14 +813,17 @@
             document.getElementById('exportResult').innerHTML = '✅ HTML報告已下載';
         }
 
+        // 初始化
         document.addEventListener('DOMContentLoaded', function() {
             loadRecords();
             document.getElementById('date').value = new Date().toISOString().split('T')[0];
             
+            // 綁定事件
             document.querySelectorAll('input').forEach(input => {
                 input.addEventListener('change', updateScores);
             });
 
+            // 表單提交
             document.getElementById('pgsga-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 
